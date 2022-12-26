@@ -23,6 +23,8 @@ public class FluxAndMonoController {
 
     @GetMapping(value = "stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Long> streamAPI(){
+        int a = 1111;
+        int b = 200;
         return Flux.interval(Duration.ofSeconds(1)).log();
     }
 
