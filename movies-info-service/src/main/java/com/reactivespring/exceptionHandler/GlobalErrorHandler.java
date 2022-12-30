@@ -27,4 +27,11 @@ public class GlobalErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMess);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNotFound(NotFoundException exception){
+        log.error("Error from movies-info-service: " + exception.getMessage());
+        var error = exception.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
 }
