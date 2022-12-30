@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import java.nio.file.Path;
-
-import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 import static org.springframework.web.reactive.function.server.RequestPredicates.path;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -20,10 +17,11 @@ public class ReviewRouter {
 
         return route()
                 .nest(path("/v1/reviews"), builder -> {
-                    builder.GET("", request -> handler.filterReviews(request))
-                            .POST("", request -> handler.addReview(request))
-                            .PUT("/{id}", request -> handler.updateReview(request))
-                            .DELETE("/{id}", request -> handler.deleteReview(request));
+                    builder.GET("", handler::filterReviews)
+                            .POST("", handler::addReview)
+                            .PUT("/{id}", handler::updateReview)
+                            .DELETE("/{id}", handler::deleteReview)
+                            .GET("/stream/{id}", handler::getReviewsByMovieId);
                 })
                 .build();
     }
